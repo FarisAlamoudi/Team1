@@ -14,30 +14,12 @@
 	}
 	else
 	{
-		$sql = "SELECT * FROM Users WHERE Login=?";
-		$stmt = $conn->prepare($sql);
-		$stmt->bind_param("s", $login);
+		$stmt = $conn->prepare("INSERT into Users (FirstName,LastName,Login,Password) VALUES(?,?,?,?)");
+		$stmt->bind_param("ssss", $firstName, $lastName, $login, $password);
 		$stmt->execute();
-		$result = $stmt->get_result();
-		$rows = mysqli_num_rows($result);
-		
-		if ($rows == 0)
-		{
-			$stmt = $conn->prepare("INSERT into Users (FirstName, LastName, Login, Password) VALUES(?,?,?,?)");
-			$stmt->bind_param("ssss", $firstName, $lastName, $login, $password);
-			$stmt->execute();
-			$id = $conn->insert_id;
-			$stmt->close();
-			$conn->close();
-			http_response_code(200);
-			$searchResults .= '{'.'"id": "'.$id.''.'"}';
-			returnWithInfo($searchResults);
-		}
-		else
-		{
-			http_response_code(409);
-			returnWithError("Username taken");
-		}
+		$stmt->close();
+		$conn->close();
+		returnWithError("");
 	}
 
 	function getRequestInfo()
@@ -54,12 +36,6 @@
 	function returnWithError( $err )
 	{
 		$retValue = '{"error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
-	}
-
-	function returnWithInfo( $searchResults )
-	{
-		$retValue = '{"results":[' . $searchResults . '],"error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 
