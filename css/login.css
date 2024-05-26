@@ -20,7 +20,7 @@ body {
 
 /* Form styling */
 .form {
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(34, 34, 51, 0.9); /* Slightly transparent dark background */
     max-width: 350px;
     margin: 0 auto;
     padding: 45px;
@@ -50,7 +50,7 @@ body {
     font-family: 'Alice', serif;
     text-transform: uppercase;
     outline: 0;
-    background: #897261;
+    background: #6a5acd; /* Slate Blue color */
     width: 100%;
     border: 0;
     padding: 15px;
@@ -61,44 +61,39 @@ body {
 }
 
 .submit-btn:hover {
-    background: #cdab91;
+    background: #836fff; /* Light Slate Blue color */
 }
 
-/* bar surrounding login-signup buttons */
-.button-box {
-    width: 270px;
-    margin: auto;
-    position: relative;
-    border-radius: 30px;
-    top: -25px;
-    box-shadow: 0 0 25px 0 rgba(137, 114, 97, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-/* login and signup buttons */
+/* Toggle button styling */
 .toggle-btn {
-    padding: 10px 42px;
+    padding: 10px 20px;
     cursor: pointer;
     background: transparent;
     border: 0;
     outline: none;
-    position: relative;
     color: #FFFFFF;
-    font-family: 'Montserrat';
-    font-style: normal;
+    font-family: 'Alice', serif;
     font-size: 12px;
     text-transform: uppercase;
-    text-align: center;
+    margin: 0 5px;
 }
 
-/* brown slider at top of form */
+/* Bar surrounding login-signup buttons */
+.button-box {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* Slider for buttons */
 #btn {
-    top: 0;
-    left: 0;
     position: absolute;
     width: 140px;
-    height: 100%;
-    background: #897261;
-    border-radius: 30px;
+    height: 40px;
+    background: #6a5acd; /* Slate Blue color */
+    border-radius: 5px;
     transition: .4s;
 }
 
@@ -115,7 +110,7 @@ body {
 #explanation,
 #explanationUser {
     display: none;
-    color: #000;
+    color: #FFFFFF;
     text-align: left;
     font-family: 'Alice', serif;
     font-size: 12px;
