@@ -1,36 +1,53 @@
-/* login form */
+/* General body styling with the background image */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('../images/background.png') no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Container to center the form */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Form styling */
 .form {
-    border-radius: 17px;
-    position: relative;
-    background: rgba(155, 188, 115, 0.9);
+    background: rgba(255, 255, 255, 0.85);
     max-width: 350px;
-    margin: 0 auto 100px;
+    margin: 0 auto;
     padding: 45px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-    overflow: hidden;
-    height: 360px;
     transition: .6s;
-
+    border-radius: 10px;
 }
 
+/* Input fields styling */
 .input-field {
-    border-radius: 17px;
-    font-family: 'Alice';
+    border-radius: 5px;
+    font-family: 'Alice', serif;
     outline: 0;
     background: #f2f2f2;
     width: 100%;
-    border: 0;
+    border: 1px solid #ccc;
     margin: 0 0 15px;
     padding: 15px;
     box-sizing: border-box;
     font-size: 14px;
-    position: relative;
 }
 
+/* Submit button styling */
 .submit-btn {
-    border-radius: 17px;
-    font-family: 'Alice';
+    border-radius: 5px;
+    font-family: 'Alice', serif;
     text-transform: uppercase;
     outline: 0;
     background: #897261;
@@ -39,90 +56,12 @@
     padding: 15px;
     color: #FFFFFF;
     font-size: 14px;
-    -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
+    transition: background 0.3s ease;
     cursor: pointer;
 }
 
-.input-form {
-    transition: .4s;
-    position: absolute;
-}
-
-.input-field:valid {
-    border: 2px solid #009345;
-}
-
-.input-field:invalid {
-    border: 2px solid red;
-}
-
-.input-field:invalid:required {
-    background-image: white;
-}
-
-/* username and password criteria message */
-#explanation,
-#explanationUser {
-    display: none;
-    color: #000;
-    position: relative;
-    bottom: 1px;
-    text-align: center;
-    font-family: 'Alice';
-}
-
-#explanation>p {
-    position: relative;
-    bottom: 10px;
-}
-
-/* error messaging formatting */
-#loginResult {
-    position: relative;
-    bottom: 175px;
-    color: rgb(203, 55, 21);
-    font-family: 'Alice';
-}
-
-#signupResult {
-    position: relative;
-    bottom: 350px;
-    color: rgb(203, 55, 21);
-    font-family: 'Alice';
-}
-
-/* Add a green text color and a smile when the requirements are right */
-.valid {
-    color: #009345;
-}
-
-.valid:before {
-    position: relative;
-    left: -35px;
-    content: "😁";
-}
-
-/* Add a red text color and a sad face when the requirements are wrong */
-.invalid {
-    color: red;
-}
-
-.invalid:before {
-    position: relative;
-    left: -35px;
-    content: "☹️";
-}
-
-/* for the optional number, hyphen, and underscore in username signup field */
-.opt {
-    color: yellow;
-}
-
-.opt:before {
-    position: relative;
-    left: -35px;
-    content: "😐";
+.submit-btn:hover {
+    background: #cdab91;
 }
 
 /* bar surrounding login-signup buttons */
@@ -144,7 +83,7 @@
     outline: none;
     position: relative;
     color: #FFFFFF;
-    font-family: 'Alice';
+    font-family: 'Montserrat';
     font-style: normal;
     font-size: 12px;
     text-transform: uppercase;
@@ -163,87 +102,82 @@
     transition: .4s;
 }
 
-#login {
-    position: relative;
+/* Valid and invalid input field styling */
+.input-field:valid {
+    border: 2px solid #009345;
 }
 
-#loginButton,
-#loginName,
-#loginPassword {
-    position: relative;
-    bottom: -50px;
+.input-field:invalid {
+    border: 2px solid red;
 }
 
-#signup {
-    position: relative;
-    left: -400px;
-    top: -172px;
+/* Explanation messages for password and username criteria */
+#explanation,
+#explanationUser {
+    display: none;
+    color: #000;
+    text-align: left;
+    font-family: 'Alice', serif;
+    font-size: 12px;
+    margin-top: 10px;
 }
 
-.submit-btn:hover {
-    background: #cdab91;
+#explanation p,
+#explanationUser p {
+    margin: 5px 0;
 }
 
-/* body formatting */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* This makes sure the body takes up the full viewport height */
-    background-color: #F3B02E;
-    background-image: url('../images/background.png');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    margin: 0;
-    overflow: hidden;
+/* Error messaging formatting */
+#loginResult {
+    color: rgb(203, 55, 21);
+    font-family: 'Alice', serif;
+    margin-top: 10px;
 }
 
-
-/* logo formatting */
-#logo {
-    width: 10%;
-    height: 10%;
-    left: 0;
+#signupResult {
+    color: rgb(203, 55, 21);
+    font-family: 'Alice', serif;
+    margin-top: 10px;
 }
 
-/* For mobile devices */
+/* Criteria validity indicators */
+.valid {
+    color: #009345;
+}
+
+.valid:before {
+    content: "😁";
+    margin-right: 5px;
+}
+
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    content: "☹️";
+    margin-right: 5px;
+}
+
+.opt {
+    color: #ffcc00;
+}
+
+.opt:before {
+    content: "😐";
+    margin-right: 5px;
+}
+
+/* Responsive design for mobile devices */
 @media only screen and (max-width: 767px) {
-    body {
-        background-image: url('../images/backgroundmobile.png');
-    }
-
-    #logo {
-        width: 15%;
-        height: 15%;
-    }
-
     .form {
-        flex-direction: column;
-        width: 50%;
-        position: relative;
-        margin: auto;
-        border-radius: 10px;
+        width: 80%;
     }
 }
 
-/* For tablets devices */
+/* Responsive design for tablets */
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    body {
-        background-image: url('../images/backgroundmobile.png');
-    }
-
-    #logo {
-        width: 15%;
-        height: 15%;
-    }
-
     .form {
-        flex-direction: column;
-        width: 50%;
-        position: relative;
-        margin: auto;
-        border-radius: 10px;
+        width: 60%;
     }
 }
