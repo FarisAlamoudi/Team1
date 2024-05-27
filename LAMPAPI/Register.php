@@ -14,12 +14,24 @@
 	}
 	else
 	{
-		$stmt = $conn->prepare("INSERT INTO Users (FirstName,LastName,Login,Password) VALUES(?,?,?,?)");
-		$stmt->bind_param("ssss", $firstName, $lastName, $login, $password);
+		$stmt = $conn->prepare("SELECT * FROM Users WHERE Login=?");
+		$stmt->bind_param("s", $login);
 		$stmt->execute();
-		$stmt->close();
-		$conn->close();
-		returnWithError("");
+		$result = $stmt->get_result();
+
+		if ($result->num_rows > 0)
+		{
+			returnWithError("Username Taken");
+		}
+		else
+		{
+			$stmt = $conn->prepare("INSERT INTO Users (FirstName,LastName,Login,Password) VALUES(?,?,?,?)");
+			$stmt->bind_param("ssss", $firstName, $lastName, $login, $password);
+			$stmt->execute();
+			$stmt->close();
+			$conn->close();
+			returnWithError("");
+		}
 	}
 
 	function getRequestInfo()
