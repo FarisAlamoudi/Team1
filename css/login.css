@@ -1,178 +1,247 @@
-/* General body styling with the background image */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: url('../images/background.png') no-repeat center center fixed;
-    background-size: cover;
-    margin: 0;
-    overflow: hidden;
-}
-
-/* Container to center the form */
-.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-/* Form styling */
 .form {
-    background: rgba(34, 34, 51, 0.9); /* Slightly transparent dark background */
-    max-width: 350px;
-    margin: 0 auto;
-    padding: 45px;
-    text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-    transition: .6s;
-    border-radius: 10px;
+	border-radius: 0px;
+	position: relative;
+	background: rgba(25, 25, 112, 0);
+	max-width: 350px;
+	margin: 0 auto 100px;
+	padding: 45px;
+	text-align: center;
+
+	overflow: hidden;
+	height: 360px;
+	transition: .6s;
 }
 
-/* Input fields styling */
+header {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 20px 0;
+	text-align: center;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+	color: #ffffff;
+	margin: 0;
+}
+
 .input-field {
-    border-radius: 5px;
-    font-family: 'Alice', serif;
-    outline: 0;
-    background: #f2f2f2;
-    width: 100%;
-    border: 1px solid #ccc;
-    margin: 0 0 15px;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
+	border-radius: 0px;
+	font-family: 'Arial';
+	outline: 0;
+	background: #f2f2f2;
+	width: 100%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 15px;
+	box-sizing: border-box;
+	font-size: 14px;
+	position: relative;
 }
 
-/* Submit button styling */
 .submit-btn {
-    border-radius: 5px;
-    font-family: 'Alice', serif;
-    text-transform: uppercase;
-    outline: 0;
-    background: #6a5acd; /* Slate Blue color */
-    width: 100%;
-    border: 0;
-    padding: 15px;
-    color: #FFFFFF;
-    font-size: 14px;
-    transition: background 0.3s ease;
-    cursor: pointer;
+	border-radius: 0px;
+	font-family: 'Arial';
+	text-transform: uppercase;
+	outline: 0;
+	background: #FFA07A;
+	width: 100%;
+	border: 0;
+	padding: 15px;
+	color: #FFFFFF;
+	font-size: 14px;
+	-webkit-transition: all 0.3 ease;
+	transition: all 0.3 ease;
+	cursor: pointer;
 }
 
 .submit-btn:hover {
-    background: #836fff; /* Light Slate Blue color */
+	background: #FF8C00;
 }
 
-/* Toggle button styling */
-.toggle-btn {
-    padding: 10px 20px;
-    cursor: pointer;
-    background: transparent;
-    border: 0;
-    outline: none;
-    color: #FFFFFF;
-    font-family: 'Alice', serif;
-    font-size: 12px;
-    text-transform: uppercase;
-    margin: 0 5px;
+.input-form {
+	transition: .4s;
+	position: absolute;
 }
 
-/* Bar surrounding login-signup buttons */
-.button-box {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-    position: relative;
-}
-
-/* Slider for buttons */
-#btn {
-    position: absolute;
-    width: 140px;
-    height: 40px;
-    background: #6a5acd; /* Slate Blue color */
-    border-radius: 5px;
-    transition: .4s;
-}
-
-/* Valid and invalid input field styling */
 .input-field:valid {
-    border: 2px solid #009345;
+	border: 2px solid #009345;
 }
 
 .input-field:invalid {
-    border: 2px solid red;
+	border: 2px solid red;
 }
 
-/* Explanation messages for password and username criteria */
+.input-field:invalid:required {
+	background-image: white;
+}
+
 #explanation,
 #explanationUser {
-    display: none;
-    color: #FFFFFF;
-    text-align: left;
-    font-family: 'Alice', serif;
-    font-size: 12px;
-    margin-top: 10px;
+	display: none;
+	color: #FFFFFF;
+	position: relative;
+	bottom: 1px;
+	text-align: center;
+	font-family: 'Arial';
 }
 
-#explanation p,
-#explanationUser p {
-    margin: 5px 0;
+#explanation>p {
+	position: relative;
+	bottom: 10px;
 }
 
-/* Error messaging formatting */
 #loginResult {
-    color: rgb(203, 55, 21);
-    font-family: 'Alice', serif;
-    margin-top: 10px;
+	position: relative;
+	bottom: 175px;
+	color: rgb(203, 55, 21);
+	font-family: 'Arial';
 }
 
 #signupResult {
-    color: rgb(203, 55, 21);
-    font-family: 'Alice', serif;
-    margin-top: 10px;
+	position: relative;
+	bottom: 350px;
+	color: rgb(203, 55, 21);
+	font-family: 'Arial';
 }
 
-/* Criteria validity indicators */
 .valid {
-    color: #009345;
+	color: #009345;
 }
 
 .valid:before {
-    content: "😁";
-    margin-right: 5px;
+	position: relative;
+	left: -35px;
+	content: "😁";
 }
 
 .invalid {
-    color: red;
+	color: red;
 }
 
 .invalid:before {
-    content: "☹️";
-    margin-right: 5px;
+	position: relative;
+	left: -35px;
+	content: "☹️";
 }
 
 .opt {
-    color: #ffcc00;
+	color: #FFA07A;
 }
 
 .opt:before {
-    content: "😐";
-    margin-right: 5px;
+	position: relative;
+	left: -35px;
+	content: "😐";
 }
 
-/* Responsive design for mobile devices */
+.button-box {
+	width: 270px;
+	margin: auto;
+	position: relative;
+	border-radius: 0px;
+	top: -25px;
+	box-shadow: 0 0 25px 0 rgba(25, 25, 112, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.toggle-btn {
+	padding: 10px 42px;
+	cursor: pointer;
+	background: transparent;
+	border: 0;
+	outline: none;
+	position: relative;
+	color: #FFFFFF;
+	font-family: 'Alice';
+	font-style: normal;
+	font-size: 12px;
+	text-transform: uppercase;
+	text-align: center;
+	background: rgba(255, 255, 255, 0.01);
+}
+
+#btn {
+	top: 0;
+	left: 0;
+	position: absolute;
+	width: 140px;
+	height: 100%;
+	background: #FFA07A;
+	border-radius: 0px;
+	transition: .4s;
+}
+
+#login {
+	position: relative;
+}
+
+#loginButton,
+#loginName,
+#loginPassword {
+	position: relative;
+	bottom: -50px;
+}
+
+#signup {
+	position: relative;
+	left: -400px;
+	top: -172px;
+}
+
+body {
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.67), rgba(0, 0, 0, 0)), url('../images/background2.png');
+	background-size: cover;
+	background-position: center;
+	background-attachment: fixed;
+	font-family: 'Ubuntu', Arial, sans-serif;
+	line-height: 1.6;
+	color: #ffffff;
+	margin: 0;
+	padding-top: 80px;
+}
+
+#logo {
+	width: 10%;
+	height: 10%;
+	left: 0;
+}
+
 @media only screen and (max-width: 767px) {
-    .form {
-        width: 80%;
-    }
+	body {
+		background-image: url('../images/backgroundmobile.png');
+	}
+
+	#logo {
+		width: 15%;
+		height: 15%;
+	}
+
+	.form {
+		flex-direction: column;
+		width: 50%;
+		position: relative;
+		margin: auto;
+		border-radius: 0px;
+	}
 }
 
-/* Responsive design for tablets */
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    .form {
-        width: 60%;
-    }
+	body {
+		background-image: url('../images/backgroundmobile.png');
+	}
+
+	#logo {
+		width: 15%;
+		height: 15%;
+	}
+
+	.form {
+		flex-direction: column;
+		width: 50%;
+		position: relative;
+		margin: auto;
+		border-radius: 0px;
+	}
 }
