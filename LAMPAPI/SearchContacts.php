@@ -13,8 +13,8 @@
 	else
 	{
 		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (FirstName LIKE ? OR LastName LIKE ? OR PhoneNumber LIKE ? OR EmailAddress LIKE ?) AND UserID=?");
-		$colorName = "%" . $inData["search"] . "%";
-		$stmt->bind_param("ssi", $colorName, $colorName, $inData["userId"]);
+		$search = "%" . $inData["search"] . "%";
+		$stmt->bind_param("ssssi", $search, $search, $search, $search, $inData["userId"]);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
