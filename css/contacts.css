@@ -1,416 +1,402 @@
-/* body formatting */
 body {
-    background-color: #800080;
-    background-image: url('../images/background2.png');
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-    overflow: hidden;
+	background-color: #00008B;
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.67), rgba(0, 0, 0, 0)), url('../images/background3.png');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	overflow: hidden;
 }
 
-/* content from leinecker */
 .content {
-    padding: 1px 16px;
-    height: 1000px;
-    margin-top: 25px;
-    margin-left: 270px;
-    margin-right: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    overflow: hidden;
+	padding: 1px 16px;
+	height: 1000px;
+	margin-top: 25px;
+	margin-left: 270px;
+	margin-right: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	overflow: hidden;
 }
 
 .loggedInDiv {
-    font-family: 'Alice';
-    font-weight: bolder;
-    font-size: 2vw;
-    align-self: center;
+	font-family: 'Arial';
+	font-weight: bolder;
+	font-size: 2vw;
+	align-self: center;
 }
 
 .accessUIDiv {
-    margin: 10px;
-    padding: 10px 10px;
-    text-align: center;
-    align-self: center;
+	margin: 10px;
+	padding: 10px 10px;
+	text-align: center;
+	align-self: center;
 }
 
 .column {
-    display: inline-block;
-    padding: 10px 10px;
-    vertical-align: middle;
+	display: inline-block;
+	padding: 10px 10px;
+	vertical-align: middle;
 }
 
 .column button {
-    position: relative;
-    background: #ffffff;
-    border-radius: 50%;
-    padding: 15px;
-    margin: 10px;
-    width: 50px;
-    height: 50px;
-    font-size: 18px;
-    display: flex;
-    border: none;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	position: relative;
+	background: #ffffff;
+	border-radius: 50%;
+	padding: 15px;
+	margin: 10px;
+	width: 50px;
+	height: 50px;
+	font-size: 18px;
+	display: flex;
+	border: none;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+	transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .tables {
-    display: none;
-    align-self: center;
+	display: none;
+	align-self: center;
 }
 
 .addContacts {
-    align-self: center;
+	align-self: center;
 }
 
-/* add contacts table formatting */
 #addMe {
-    font-family: 'Alice';
-    display: none;
-    border-radius: 17px;
-    position: relative;
-    background: rgba(234, 207, 155, 0.9);
-    max-width: 350px;
-    margin: 0 auto 50px;
-    padding: 30px;
-    text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+	font-family: 'Arial';
+	display: none;
+	border-radius: 0px;
+	position: relative;
+	background: rgba(234, 207, 155, 0.9);
+	max-width: 350px;
+	margin: 0 auto 50px;
+	padding: 30px;
+	text-align: center;
+	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
 #addMe input {
-    border-radius: 17px;
-    font-family: 'Alice';
-    outline: 0;
-    background: #f2f2f2;
-    width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 10px;
-    box-sizing: border-box;
-    font-size: 14px;
+	border-radius: 0px;
+	font-family: 'Arial';
+	outline: 0;
+	background: #f2f2f2;
+	width: 100%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 10px;
+	box-sizing: border-box;
+	font-size: 14px;
 }
 
-
 #addMe>input:valid {
-    border: 2px solid #009345;
-    ;
+	border: 2px solid #009345;
 }
 
 #addMe>input:invalid {
-    border: 2px solid red;
+	border: 2px solid red;
 }
 
 #addMe>input:invalid:required {
-    background-image: white;
+	background-image: white;
 }
 
 #addMe button {
-    border-radius: 17px;
-    font-family: 'Alice';
-    outline: 0;
-    background: #78500b;
-    color: rgba(234, 207, 155, 0.9);
-    width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 10px;
-    box-sizing: border-box;
-    font-size: 14px;
-    cursor: pointer;
+	border-radius: 0px;
+	font-family: 'Arial';
+	outline: 0;
+	background: #8B4513;
+	color: rgba(234, 207, 155, 0.9);
+	width: 100%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 10px;
+	box-sizing: border-box;
+	font-size: 14px;
+	cursor: pointer;
 }
 
 #contacts td input {
-    border-radius: 17px;
-    font-family: 'Alice';
-    outline: 0;
-    background: #fbde99;
-    width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 10px;
-    box-sizing: border-box;
-    font-size: 14px;
+	border-radius: 0px;
+	font-family: 'Arial';
+	outline: 0;
+	background: #fbde99;
+	width: 100%;
+	border: 0;
+	margin: 0 0 15px;
+	padding: 10px;
+	box-sizing: border-box;
+	font-size: 14px;
 }
 
-/* button formatting */
 .btn {
-    color: #007D2F;
-    font-family: 'Alice';
-    font-style: normal;
-    font-weight: bolder;
-    font-size: 2.3vw;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.3em 1.2em;
-    margin: 0.6em 0.3em 0.3em 0;
-    float: right;
+	color: #FFFFFF;
+	font-family: 'Arial';
+	font-style: normal;
+	font-weight: bolder;
+	font-size: 2.3vw;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0.3em 1.2em;
+	margin: 0.6em 0.3em 0.3em 0;
+	float: right;
 }
 
 .btn:hover {
-    color: #897261;
+	color: #8B4513;
 }
 
-/* search bar formatting */
 .search-container {
-    background: #fff;
-    font-family: 'Alice';
-    height: 30px;
-    width: 400px;
-    border-radius: 30px;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: 0.8s;
-    box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .3),
-        -4px -4px 6px 0 rgba(116, 125, 136, .2),
-        inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
-        inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
+	background: #fff;
+	font-family: 'Arial';
+	height: 50px;
+	width: 400px;
+	border-radius: 25px;
+	padding: 10px 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	transition: 0.8s;
+	box-shadow: 4px 4px 6px 0 rgba(255, 255, 255, .3),
+		-4px -4px 6px 0 rgba(116, 125, 136, .2),
+		inset -4px -4px 6px 0 rgba(255, 255, 255, .2),
+		inset 4px 4px 6px 0 rgba(0, 0, 0, .2);
 }
 
 .search-container:hover>.search-input {
-    width: 400px;
+	width: 400px;
 }
 
 .search-container .search-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    width: 0px;
-    font-family: 'Alice';
-    font-weight: 500;
-    font-size: 16px;
-    transition: 0.8s;
+	background: transparent;
+	border: none;
+	outline: none;
+	width: 0px;
+	font-family: 'Arial';
+	font-weight: 500;
+	font-size: 16px;
+	transition: 0.8s;
 }
 
 .search-container .search-btn .fas {
-    color: rgba(155, 188, 115, 0.9);
+	color: #FFD700;
 }
 
 .search-container:hover {
-    animation: linear 3;
+	animation: linear 3;
 }
 
 span {
-    color: rgb(164, 0, 0);
-    font-family: 'Alice';
+	color: rgb(164, 0, 0);
+	font-family: 'Arial';
 }
 
 p {
-    color: rgb(164, 0, 0);
-    font-family: 'Alice';
+	color: rgb(164, 0, 0);
+	font-family: 'Arial';
 }
 
-/* table formatting */
 #contactsTable {
-    display: block;
-    height: 500px;
+	display: block;
+	height: 500px;
 }
-
 
 table {
-    width:100%;
-    table-layout: fixed;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
+	width: 100%;
+	table-layout: fixed;
+	-moz-border-radius: 0px;
+	-webkit-border-radius: 0px;
+	border-radius: 0px;
 }
 
 .tbl-content {
-    height: 300px;
-    overflow-x: auto;
-    margin-top: 0px;
-    border: 1px solid rgba(155, 188, 115, 0.9);
+	height: 300px;
+	overflow-x: auto;
+	margin-top: 0px;
+	border: 1px solid rgba(0, 0, 0, 0);
 }
 
 #contacts td,
 #contacts th {
-    border: 1px solid rgba(155, 188, 115, 0.9);
+	border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 #contacts tr:hover {
-    background-color: #478fbb;
+	background-color: rgba(0, 0, 0, 0.1);
 }
 
 #contacts th {
-    padding: 20px 15px;
-    text-align: left;
-    font-family: 'Alice';
-    font-weight: 500;
-    font-size: 16px;
-    font-weight: bold;
-    color: #007D2F;
-    background-color: rgba(155, 188, 115, 0.9);
-    text-transform: uppercase;
+	padding: 20px 15px;
+	text-align: left;
+	font-family: 'Arial';
+	font-weight: 500;
+	font-size: 16px;
+	font-weight: bold;
+	color: #ffffff;
+	background-color: rgba(0, 0, 0, 0.5);
+	text-transform: uppercase;
 }
 
 #contacts td {
-    padding: 15px;
-    text-align: left;
-    font-family: 'Alice';
-    vertical-align: middle;
-    font-weight: 300;
-    font-size: 15px;
-    font-weight: bold;
-    color: #66471b;
-    background-color: antiquewhite;
-}
-#contacts td span {
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    font-size: 100%;
-    color: #66471b;
+	padding: 15px;
+	text-align: left;
+	font-family: 'Arial';
+	vertical-align: middle;
+	font-weight: 300;
+	font-size: 15px;
+	font-weight: bold;
+	color: #000000;
+	background-color: rgba(255, 255, 255, 0.75);
 }
 
-/* for custom scrollbar for webkit browser*/
+#contacts td span {
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	font-size: 100%;
+	color: #000000;
+}
+
 ::-webkit-scrollbar {
-    width: 6px;
+	width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 
-/*side navigation menu*/
 .sidenav img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 70%;
-    position: relative;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 70%;
+	position: relative;
 }
 
 .sidenav {
-    width: 264px;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    left: 0px;
-    top: 0px;
-    overflow: auto;
-    /*disables horizontal scroll*/
-    position: fixed;
-    /*scroll bar stays in place when user is scrolling*/
-    background: rgba(155, 188, 115, 0.9);
+	width: 264px;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	left: 0px;
+	top: 0px;
+	overflow: auto;
+
+	position: fixed;
+
+	background: linear-gradient(to right, rgba(139, 69, 19, 0.9), rgba(139, 69, 19, 0));
 }
 
-/*navigation links*/
 .sidenav a {
-    padding: 10px 0px 15px 0px;
-    display: block;
-    text-align: center;
-    text-decoration: none;
-    font-family: 'Alice';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 25px;
-    line-height: 44px;
-    color: #007D2F;
+	padding: 10px 0px 15px 0px;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	font-family: 'Arial';
+	font-style: normal;
+	font-weight: 600;
+	font-size: 25px;
+	line-height: 44px;
+	color: #FFFFFF;
 }
 
 .buttons {
-    padding: 10px 0px 15px 0px;
-    display: block;
+	padding: 10px 0px 15px 0px;
+	display: block;
 }
 
-/*buttons that are on the sidebar*/
 .sidebuttons {
-    padding: 10px 0px 15px 0px;
-    display: inline-block;
+	padding: 10px 0px 15px 0px;
+	display: inline-block;
 }
 
 .sidebuttons:hover {
-    color: #897261;
+	color: #897261;
 }
 
 .buttons:hover {
-    color: #897261;
+	color: #897261;
 }
 
 .sidenav a:hover {
-    color: #897261;
+	color: #897261;
 }
 
 .font {
-    text-align: center;
-    font-family: 'Alice';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 25px;
-    line-height: 44px;
-    color: #007D2F;
-    background: none;
-    border: none;
-    cursor: pointer;
-    margin-left: 80px;
+	text-align: center;
+	font-family: 'Arial';
+	font-style: normal;
+	font-weight: 600;
+	font-size: 25px;
+	line-height: 44px;
+	color: #FFFFFF;
+	background: none;
+	border: none;
+	cursor: pointer;
+	margin-left: 80px;
 }
 
-/* make sidebar a topbar for mobile view*/
 @media screen and (max-width: 700px) {
-    body {
-        background-image: url('../images/backgroundmobile2.png');
-    }
+	body {
+		background-image: url('../images/backgroundmobile2.png');
+	}
 
-    .sidenav {
-        width: 100%;
-        height: auto;
-        position: relative;
-        overflow: hidden;
-        /*hides scroll bar*/
-        position: sticky;
+	.sidenav {
+		width: 100%;
+		height: auto;
+		position: relative;
+		overflow: hidden;
 
-    }
+		position: sticky;
 
-    .sidebuttons {
-        position: relative;
-        font-size: 4vw;
-        top: 5px;
-    }
+	}
 
-    .sidenav a {
-        display: inline-block;
-        padding: 10px;
-        font-size: 4vw;
-        top: 5px;
-        position: relative;
-    }
+	.sidebuttons {
+		position: relative;
+		font-size: 4vw;
+		top: 5px;
+	}
 
-    .sidenav img {
-        width: 12vw;
-        float: left;
-    }
+	.sidenav a {
+		display: inline-block;
+		padding: 10px;
+		font-size: 4vw;
+		top: 5px;
+		position: relative;
+	}
 
-    div.content {
-        margin-left: 0;
-    }
+	.sidenav img {
+		width: 12vw;
+		float: left;
+	}
 
-    .buttons {
-        margin-left: 100px;
-    }
+	div.content {
+		margin-left: 0;
+	}
+
+	.buttons {
+		margin-left: 100px;
+	}
 }
 
-/*displays the bar vertically*/
 @media screen and (max-width: 400px) {
-    .sidenav a {
-        text-align: center;
-        float: none;
-    }
+	.sidenav a {
+		text-align: center;
+		float: none;
+	}
 
-    .sidenav img {
-        width: 40%;
-    }
+	.sidenav img {
+		width: 40%;
+	}
 }
