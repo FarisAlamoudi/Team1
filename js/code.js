@@ -1,13 +1,10 @@
 const urlBase = 'http://cosmiccontacts.net/LAMPAPI';
 const extension = 'php';
 
-// WORKS but no md5 password hashing (also maybe add field validation????)
+// WORKS but no md5 password hashing
 function login()
 {
-    userId = 0;
-    firstName = "";
-    lastName = "";
-
+    document.getElementById('loginResult').innerHTML = "";
     let userName = document.getElementById("loginName").value.trim();
     let password = document.getElementById("loginPassword").value.trim();
     // var hash = md5(password);
@@ -49,10 +46,43 @@ function login()
 // WORKS but no md5 password hashing and NO field validation / regex
 function register()
 {
+    document.getElementById('registerResult').innerHTML = "";
     let firstName = document.getElementById("firstName").value.trim();
     let lastName = document.getElementById("lastName").value.trim();
     let userName = document.getElementById("userName").value.trim();
     let password = document.getElementById("password").value.trim();
+    var validity = true;
+    
+    if (firstName == "")
+    {
+        document.getElementById("firstNameError").innerHTML = "Invalid First Name";
+        validity = false;
+    }
+    if (lastName == "")
+    {
+        document.getElementById("lastNameError").innerHTML = "Invalid Last Name";
+        validity = false;
+    }
+    
+    var regex = /(?=.*[a-zA-Z])([a-zA-Z0-9]).{6,20}$/;
+    if (regex.test(userName) == false)
+    {
+        document.getElementById("userNameError").innerHTML = "Invalid User Name";
+        validity = false;
+    }
+
+    var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{6,22}/;
+    if (regex.test(password) == false)
+        {
+        document.getElementById("passwordError").innerHTML = "Invalid Password";
+        validity = false;
+    }
+
+    if (!validity)
+    {
+        document.getElementById("registerResult").innerHTML = "INVALID";
+        return;
+    }
 
     let jsonPayload = JSON.stringify({firstName:firstName,lastName:lastName,userName:userName,password:password});
     let url = urlBase + '/Register.' + extension;
@@ -81,7 +111,6 @@ function register()
     xhr.send(jsonPayload);
 }
 
-
 // top left button on contacts page returns to login screen
 function logout()
 {
@@ -93,7 +122,7 @@ function logout()
     window.location.href = "index.html";
 }
 
-// ???
+// to show the table for the contacts 
 function showTable()
 {
     var x = document.getElementById("addMe");
@@ -125,6 +154,8 @@ function addContact()
         if (this.readyState == 4)
         {
             document.getElementById("registerResult").innerHTML = "Contact added";
+            loadContacts();
+            showTable();
         }
     };
     xhr.send(jsonPayload);
@@ -284,34 +315,6 @@ function searchContacts() {
     }
 }
 
-function registerIsValid(firstName, lastName, userName, password) {
-
-    var validity = true;
-
-    if (firstName == "") {
-        document.getElementById("registerResult").innerHTML = "Invalid First Name";
-        validity = false;
-    }
-
-    if (lastName == "") {
-        document.getElementById("registerResult").innerHTML = "Invalid Last Name";
-        validity = false;
-    }
-    
-    var regex = /(?=.*[a-zA-Z])([a-zA-Z0-9]).{6,20}$/;
-    if (regex.test(userName) == false) {
-        document.getElementById("registerResult").innerHTML = "Invalid User Name";
-        validity = false;
-    }
-
-    var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{6,22}/;
-    if (regex.test(password) == false) {
-        document.getElementById("registerResult").innerHTML = "Invalid Password";
-        validity = false;
-    }
-
-    return validity;
-}
 
 function contactIsValid(firstName, lastName, phoneNumber, emailAddress) {
 
