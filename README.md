@@ -9,6 +9,5 @@ http://cosmiccontacts.net
   <li><a href="https://github.com"> - API</a></li>
   <li><a href="https://github.com"> - FrontEnd</a></li>
   <li><a href="https://github.com"> - FrontEnd</a></li>
-  <li><a href="https://github.com"> - Database/PM</a></li>
 </ul>
 
