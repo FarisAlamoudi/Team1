@@ -1,4 +1,4 @@
-const urlBase = 'http://paradise4331.com/LAMPAPI';
+const urlBase = 'http://cosmiccontacts.net/LAMPAPI';
 const extension = 'php';
 
 let userId = 0;
@@ -6,60 +6,59 @@ let firstName = "";
 let lastName = "";
 const ids = []
 
-function doLogin()
-{
-	userId = 0;
-	firstName = "";
-	lastName = "";
-	
-	let login = document.getElementById("loginName").value;
-	let password = document.getElementById("loginPassword").value;
-//	var hash = md5( password );
-	
-	document.getElementById("loginResult").innerHTML = "";
+function doLogin() {
+    userId = 0;
+    firstName = "";
+    lastName = "";
 
-	let tmp = {login:login,password:password};
-//	var tmp = {login:login,password:hash};
-	let jsonPayload = JSON.stringify( tmp );
-	
-	let url = urlBase + '/Login.' + extension;
+    let login = document.getElementById("loginName").value;
+    let password = document.getElementById("loginPassword").value;
+    var hash = md5(password);
 
-	let xhr = new XMLHttpRequest();
-	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				let jsonObject = JSON.parse( xhr.responseText );
-				userId = jsonObject.id;
-		
-				if( userId < 1 )
-				{		
-					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-					return;
-				}
-		
-				firstName = jsonObject.firstName;
-				lastName = jsonObject.lastName;
+    if (!validLoginForm(login, password)) {
+        document.getElementById("loginResult").innerHTML = "invalid username or password";
+        return;
+    }
+    document.getElementById("loginResult").innerHTML = "";
 
-				saveCookie();
-	
-				window.location.href = "contacts.html";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		document.getElementById("loginResult").innerHTML = err.message;
-	}
+    let tmp = {
+        login: login,
+        password: hash
+    };
 
+    let jsonPayload = JSON.stringify(tmp);
+
+    let url = urlBase + '/Login.' + extension;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+
+                let jsonObject = JSON.parse(xhr.responseText);
+                userId = jsonObject.id;
+
+                if (userId < 1) {
+                    document.getElementById("loginResult").innerHTML = "User Name OR Password INCORRECT";
+                    return;
+                }
+                firstName = jsonObject.firstName;
+                lastName = jsonObject.lastName;
+
+                saveCookie();
+                window.location.href = "contacts.html";
+            }
+        };
+
+        xhr.send(jsonPayload);
+    } catch (err) {
+        document.getElementById("loginResult").innerHTML = err.message;
+    }
 }
 
-function doRegister() {
+function doSignup() {
     firstName = document.getElementById("firstName").value;
     lastName = document.getElementById("lastName").value;
 
@@ -84,7 +83,7 @@ function doRegister() {
 
     let jsonPayload = JSON.stringify(tmp);
 
-    let url = urlBase + '/Register.' + extension;
+    let url = urlBase + '/SignUp.' + extension;
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -119,54 +118,53 @@ function doRegister() {
     }
 }
 
-function saveCookie()
-{
-	let minutes = 20;
-	let date = new Date();
-	date.setTime(date.getTime()+(minutes*60*1000));	
-	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
+function saveCookie() {
+    let minutes = 20;
+    let date = new Date();
+    date.setTime(date.getTime() + (minutes * 60 * 1000));
+
+    document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
 }
 
-function readCookie()
-{
-	userId = -1;
-	let data = document.cookie;
-	let splits = data.split(",");
-	for(var i = 0; i < splits.length; i++) 
-	{
-		let thisOne = splits[i].trim();
-		let tokens = thisOne.split("=");
-		if( tokens[0] == "firstName" )
-		{
-			firstName = tokens[1];
-		}
-		else if( tokens[0] == "lastName" )
-		{
-			lastName = tokens[1];
-		}
-		else if( tokens[0] == "userId" )
-		{
-			userId = parseInt( tokens[1].trim() );
-		}
-	}
-	
-	if( userId < 0 )
-	{
-		window.location.href = "index.html";
-	}
-	else
-	{
-//		document.getElementById("userName").innerHTML = "Logged in as " + firstName + " " + lastName;
-	}
+function readCookie() {
+    userId = -1;
+    let data = document.cookie;
+    let splits = data.split(",");
+
+    for (var i = 0; i < splits.length; i++) {
+
+        let thisOne = splits[i].trim();
+        let tokens = thisOne.split("=");
+
+        if (tokens[0] == "firstName") {
+            firstName = tokens[1];
+        }
+
+        else if (tokens[0] == "lastName") {
+            lastName = tokens[1];
+        }
+
+        else if (tokens[0] == "userId") {
+            userId = parseInt(tokens[1].trim());
+        }
+    }
+
+    if (userId < 0) {
+        window.location.href = "index.html";
+    }
+
+    else {
+        document.getElementById("userName").innerHTML = "Welcome, " + firstName + " " + lastName + "!";
+    }
 }
 
-function doLogout()
-{
-	userId = 0;
-	firstName = "";
-	lastName = "";
-	document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
-	window.location.href = "index.html";
+function doLogout() {
+    userId = 0;
+    firstName = "";
+    lastName = "";
+
+    document.cookie = "firstName= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    window.location.href = "index.html";
 }
 
 function showTable() {
@@ -203,7 +201,7 @@ function addContact() {
 
     let jsonPayload = JSON.stringify(tmp);
 
-    let url = urlBase + '/AddContact.' + extension;
+    let url = urlBase + '/AddContacts.' + extension;
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -315,7 +313,7 @@ function save_row(no) {
 
     let jsonPayload = JSON.stringify(tmp);
 
-    let url = urlBase + '/UpdateContact.' + extension;
+    let url = urlBase + '/UpdateContacts.' + extension;
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -349,7 +347,7 @@ function delete_row(no) {
 
         let jsonPayload = JSON.stringify(tmp);
 
-        let url = urlBase + '/DeleteContact.' + extension;
+        let url = urlBase + '/DeleteContacts.' + extension;
 
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -396,9 +394,8 @@ function searchContacts() {
             }
         }
     }
-	// Show the table after search
-    $('.tables').show();
 }
+
 
 function clickLogin() {
     var log = document.getElementById("login");
@@ -430,7 +427,7 @@ function validLoginForm(logName, logPass) {
         console.log("USERNAME IS BLANK");
     }
     else {
-        var regex = /(?=.*[a-zA-Z])[a-zA-Z0-9-_]{3,18}$/;
+        var regex = /(?=.*[a-zA-Z])[a-zA-Z0-9]{6,20}$/;
 
         if (regex.test(logName) == false) {
             console.log("USERNAME IS NOT VALID");
@@ -448,7 +445,7 @@ function validLoginForm(logName, logPass) {
         logPassErr = true;
     }
     else {
-        var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}/;
+        var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{6,22}/;
 
         if (regex.test(logPass) == false) {
             console.log("PASSWORD IS NOT VALID");
