@@ -2,9 +2,8 @@
 
 	$inData = getRequestInfo();
 
-	$id = 0;
-	$firstName = "";
-	$lastName = "";
+	$userName = $inData["userName"];
+	$password = $inData["password"];
 
 	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331"); 	
 	if( $conn->connect_error )
@@ -13,17 +12,19 @@
 	}
 	else
 	{
-		$stmt = $conn->prepare("SELECT ID,FirstName,LastName FROM Users WHERE (Login=? AND Password=?)");
-		$stmt->bind_param("ss", $inData["login"], $inData["password"]);
+		$stmt = $conn->prepare("SELECT * FROM Users WHERE (userName=? AND password=?)");
+		$stmt->bind_param("ss", $userName, $password);
 		$stmt->execute();
 		$result = $stmt->get_result();
 
-		if( $row = $result->fetch_assoc()  )
+		if($row = $result->fetch_assoc())
 		{
-			returnWithInfo( $row['FirstName'], $row['LastName'], $row['ID'] );
+			http_response_code(200);
+			returnWithInfo( $row['ID'], $row['firstName'], $row['lastName']);
 		}
 		else
 		{
+			http_response_code(401);
 			returnWithError("No Records Found");
 		}
 
@@ -36,22 +37,22 @@
 		return json_decode(file_get_contents('php://input'), true);
 	}
 
-	function sendResultInfoAsJson( $obj )
+	function sendResultInfoAsJson($obj)
 	{
 		header('Content-type: application/json');
 		echo $obj;
 	}
 
-	function returnWithError( $err )
+	function returnWithError($err)
 	{
 		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
+		sendResultInfoAsJson($retValue);
 	}
 
-	function returnWithInfo( $firstName, $lastName, $id )
+	function returnWithInfo($id, $firstName, $lastName)
 	{
-		$retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
-		sendResultInfoAsJson( $retValue );
+		$retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '"}';
+		sendResultInfoAsJson($retValue);
 	}
 
 ?>
