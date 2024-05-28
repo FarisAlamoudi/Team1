@@ -1,124 +1,94 @@
-const urlBase = 'http://cosmiccontacts.net/LAMPAPI';
+const urlBase = 'http://www.cosmiccontacts.net/LAMPAPI';
 const extension = 'php';
 
-let userId = 0;
-let firstName = "";
-let lastName = "";
-const ids = []
-
-function doLogin() {
+// WORKS but no md5 password hashing (also maybe add field validation????)
+function login()
+{
     userId = 0;
     firstName = "";
     lastName = "";
 
-    let login = document.getElementById("loginName").value;
-    let password = document.getElementById("loginPassword").value;
-    var hash = md5(password);
+    let userName = document.getElementById("loginName").value.trim();
+    let password = document.getElementById("loginPassword").value.trim();
+    // var hash = md5(password);
 
-    if (!validLoginForm(login, password)) {
-        document.getElementById("loginResult").innerHTML = "invalid username or password";
-        return;
-    }
-    document.getElementById("loginResult").innerHTML = "";
-
-    let tmp = {
-        login: login,
-        password: hash
-    };
-
-    let jsonPayload = JSON.stringify(tmp);
-
+    let jsonPayload = JSON.stringify({userName:userName,password:password});
     let url = urlBase + '/Login.' + extension;
-
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    try {
-        xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-
-                let jsonObject = JSON.parse(xhr.responseText);
-                userId = jsonObject.id;
-
-                if (userId < 1) {
-                    document.getElementById("loginResult").innerHTML = "User Name OR Password INCORRECT";
-                    return;
+    xhr.onreadystatechange = function()
+    {
+        if (this.readyState === 4)
+        {
+            if (this.status === 200)
+            {
+                let response = JSON.parse(xhr.responseText);
+                if (response.id > 0)
+                {
+                    userId = response.id;
+                    firstName = response.firstName;
+                    lastName = response.lastName;
+    
+                    saveCookie();
+                    window.location.href = "contacts.html";
                 }
-                firstName = jsonObject.firstName;
-                lastName = jsonObject.lastName;
-
-                saveCookie();
-                window.location.href = "contacts.html";
+                else
+                {
+                    document.getElementById("loginResult").innerHTML = "Incorrect Username or Password";
+                }
             }
-        };
-
-        xhr.send(jsonPayload);
-    } catch (err) {
-        document.getElementById("loginResult").innerHTML = err.message;
-    }
+            else if (this.status === 401)
+            {
+                document.getElementById("loginResult").innerHTML = "No Records Found";
+            }
+            else
+            {
+                document.getElementById("loginResult").innerHTML = "Error: " + xhr.status;
+            }
+        }
+    };
+    xhr.send(jsonPayload);
 }
 
-function doSignup() {
-    firstName = document.getElementById("firstName").value;
-    lastName = document.getElementById("lastName").value;
+// WORKS but no md5 password hashing and NO field validation / regex
+function register()
+{
+    let firstName = document.getElementById("firstName").value.trim();
+    let lastName = document.getElementById("lastName").value.trim();
+    let userName = document.getElementById("userName").value.trim();
+    let password = document.getElementById("password").value.trim();
 
-    let username = document.getElementById("username").value;
-    let password = document.getElementById("password").value;
-
-    if (!validSignUpForm(firstName, lastName, username, password)) {
-        document.getElementById("signupResult").innerHTML = "invalid signup";
-        return;
-    }
-
-    var hash = md5(password);
-
-    document.getElementById("signupResult").innerHTML = "";
-
-    let tmp = {
-        firstName: firstName,
-        lastName: lastName,
-        login: username,
-        password: hash
-    };
-
-    let jsonPayload = JSON.stringify(tmp);
-
-    let url = urlBase + '/SignUp.' + extension;
-
+    let jsonPayload = JSON.stringify({firstName:firstName,lastName:lastName,userName:userName,password:password});
+    let url = urlBase + '/Register.' + extension;
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
-    try {
-        xhr.onreadystatechange = function () {
-
-            if (this.readyState != 4) {
-                return;
+    xhr.onreadystatechange = function()
+    {
+        if (this.readyState === 4) 
+        {
+            if (this.status === 200)
+            {
+                document.getElementById("registerResult").innerHTML = "User added";
+                window.location.href="index.html";
             }
-
-            if (this.status == 409) {
-                document.getElementById("signupResult").innerHTML = "User already exists";
-                return;
+            else if (this.status == 409)
+            {
+                document.getElementById("registerResult").innerHTML = "Username Taken";
             }
-
-            if (this.status == 200) {
-
-                let jsonObject = JSON.parse(xhr.responseText);
-                userId = jsonObject.id;
-                document.getElementById("signupResult").innerHTML = "User added";
-                firstName = jsonObject.firstName;
-                lastName = jsonObject.lastName;
-                saveCookie();
+            else
+            {
+                document.getElementById("registerResult").innerHTML = "Error: " + xhr.status;
             }
-        };
-
-        xhr.send(jsonPayload);
-    } catch (err) {
-        document.getElementById("signupResult").innerHTML = err.message;
-    }
+        }
+    };
+    xhr.send(jsonPayload);
 }
 
-function saveCookie() {
+// why do we need cookies??
+function saveCookie()
+{
     let minutes = 20;
     let date = new Date();
     date.setTime(date.getTime() + (minutes * 60 * 1000));
@@ -126,39 +96,49 @@ function saveCookie() {
     document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
 }
 
-function readCookie() {
+// why do we need cookies??
+function readCookie()
+{
     userId = -1;
     let data = document.cookie;
     let splits = data.split(",");
 
-    for (var i = 0; i < splits.length; i++) {
+    for (var i = 0; i < splits.length; i++)
+    {
 
         let thisOne = splits[i].trim();
         let tokens = thisOne.split("=");
 
-        if (tokens[0] == "firstName") {
+        if (tokens[0] == "firstName")
+        {
             firstName = tokens[1];
         }
 
-        else if (tokens[0] == "lastName") {
+        else if (tokens[0] == "lastName")
+        {
             lastName = tokens[1];
         }
 
-        else if (tokens[0] == "userId") {
+        else if (tokens[0] == "userId")
+        {
             userId = parseInt(tokens[1].trim());
         }
     }
 
-    if (userId < 0) {
+    if (userId < 0)
+    {
         window.location.href = "index.html";
     }
 
-    else {
+    else
+    {
         document.getElementById("userName").innerHTML = "Welcome, " + firstName + " " + lastName + "!";
     }
 }
 
-function doLogout() {
+// top left button on contacts page returns to login screen
+function logout()
+{
     userId = 0;
     firstName = "";
     lastName = "";
@@ -167,7 +147,9 @@ function doLogout() {
     window.location.href = "index.html";
 }
 
-function showTable() {
+
+function showTable()
+{
     var x = document.getElementById("addMe");
     var contacts = document.getElementById("contactsTable")
     if (x.style.display === "none") {
@@ -179,51 +161,32 @@ function showTable() {
     }
 }
 
-function addContact() {
+// 
+function addContact()
+{
+    let firstName = document.getElementById("firstName").value;
+    let lastName = document.getElementById("lastName").value;
+    let phoneNumber = document.getElementById("phoneNumber").value;
+    let emailAddress = document.getElementById("emailAddress").value;
 
-    let firstname = document.getElementById("contactTextFirst").value;
-    let lastname = document.getElementById("contactTextLast").value;
-    let phonenumber = document.getElementById("contactTextNumber").value;
-    let emailaddress = document.getElementById("contactTextEmail").value;
-
-    if (!validAddContact(firstname, lastname, phonenumber, emailaddress)) {
-        console.log("INVALID FIRST NAME, LAST NAME, PHONE, OR EMAIL SUBMITTED");
-        return;
-    }
-    let tmp = {
-        firstName: firstname,
-        lastName: lastname,
-        phoneNumber: phonenumber,
-        emailAddress: emailaddress,
-        userId: userId
-    };
-
-
-    let jsonPayload = JSON.stringify(tmp);
-
-    let url = urlBase + '/AddContacts.' + extension;
-
+    let jsonPayload = JSON.stringify({firstName:firstName,lastName:lastName,phoneNumber:phoneNumber,emailAddress:emailAddress,userId:userId});
+    let url = urlBase + '/AddContact.' + extension;
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    try {
-        xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log("Contact has been added");
-                // Clear input fields in form 
-                document.getElementById("addMe").reset();
-                // reload contacts table and switch view to show
-                loadContacts();
-                showTable();
-            }
-        };
-        xhr.send(jsonPayload);
-    } catch (err) {
-        console.log(err.message);
-    }
+    xhr.onreadystatechange = function()
+    {
+        if (this.readyState == 4)
+        {
+            document.getElementById("registerResult").innerHTML = "Contact added";
+        }
+    };
+    xhr.send(jsonPayload);
 }
 
-function loadContacts() {
+//
+function loadContacts()
+{
     let tmp = {
         search: "",
         userId: userId
@@ -313,7 +276,7 @@ function save_row(no) {
 
     let jsonPayload = JSON.stringify(tmp);
 
-    let url = urlBase + '/UpdateContacts.' + extension;
+    let url = urlBase + '/UpdateContact.' + extension;
 
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
@@ -347,7 +310,7 @@ function delete_row(no) {
 
         let jsonPayload = JSON.stringify(tmp);
 
-        let url = urlBase + '/DeleteContacts.' + extension;
+        let url = urlBase + '/DeleteContact.' + extension;
 
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
@@ -396,196 +359,60 @@ function searchContacts() {
     }
 }
 
+function registerIsValid(firstName, lastName, userName, password) {
 
-function clickLogin() {
-    var log = document.getElementById("login");
-    var reg = document.getElementById("signup");
-    var but = document.getElementById("btn");
-
-    log.style.left = "-400px";
-    reg.style.left = "0px";
-    but.style.left = "130px";
-}
-
-function clickRegister() {
-
-    var log = document.getElementById("login");
-    var reg = document.getElementById("signup");
-    var but = document.getElementById("btn");
-
-    reg.style.left = "-400px";
-    log.style.left = "0px";
-    but.style.left = "0px";
-
-}
-
-function validLoginForm(logName, logPass) {
-
-    var logNameErr = logPassErr = true;
-
-    if (logName == "") {
-        console.log("USERNAME IS BLANK");
-    }
-    else {
-        var regex = /(?=.*[a-zA-Z])[a-zA-Z0-9]{6,20}$/;
-
-        if (regex.test(logName) == false) {
-            console.log("USERNAME IS NOT VALID");
-        }
-
-        else {
-
-            console.log("USERNAME IS VALID");
-            logNameErr = false;
-        }
-    }
-
-    if (logPass == "") {
-        console.log("PASSWORD IS BLANK");
-        logPassErr = true;
-    }
-    else {
-        var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{6,22}/;
-
-        if (regex.test(logPass) == false) {
-            console.log("PASSWORD IS NOT VALID");
-        }
-
-        else {
-
-            console.log("PASSWORD IS VALID");
-            logPassErr = false;
-        }
-    }
-
-    if ((logNameErr || logPassErr) == true) {
-        return false;
-    }
-    return true;
-
-}
-
-function validSignUpForm(fName, lName, user, pass) {
-
-    var fNameErr = lNameErr = userErr = passErr = true;
-
-    if (fName == "") {
-        console.log("FIRST NAME IS BLANK");
-    }
-    else {
-        console.log("first name IS VALID");
-        fNameErr = false;
-    }
-
-    if (lName == "") {
-        console.log("LAST NAME IS BLANK");
-    }
-    else {
-        console.log("LAST name IS VALID");
-        lNameErr = false;
-    }
-
-    if (user == "") {
-        console.log("USERNAME IS BLANK");
-    }
-    else {
-        var regex = /(?=.*[a-zA-Z])([a-zA-Z0-9-_]).{3,18}$/;
-
-        if (regex.test(user) == false) {
-            console.log("USERNAME IS NOT VALID");
-        }
-
-        else {
-
-            console.log("USERNAME IS VALID");
-            userErr = false;
-        }
-    }
-
-    if (pass == "") {
-        console.log("PASSWORD IS BLANK");
-    }
-    else {
-        var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{8,32}/;
-
-        if (regex.test(pass) == false) {
-            console.log("PASSWORD IS NOT VALID");
-        }
-
-        else {
-
-            console.log("PASSWORD IS VALID");
-            passErr = false;
-        }
-    }
-
-    if ((fNameErr || lNameErr || userErr || passErr) == true) {
-        return false;
-
-    }
-
-    return true;
-}
-
-function validAddContact(firstName, lastName, phone, email) {
-
-    var fNameErr = lNameErr = phoneErr = emailErr = true;
+    var validity = true;
 
     if (firstName == "") {
-        console.log("FIRST NAME IS BLANK");
-    }
-    else {
-        console.log("first name IS VALID");
-        fNameErr = false;
+        document.getElementById("registerResult").innerHTML = "Invalid First Name";
+        validity = false;
     }
 
     if (lastName == "") {
-        console.log("LAST NAME IS BLANK");
+        document.getElementById("registerResult").innerHTML = "Invalid Last Name";
+        validity = false;
     }
-    else {
-        console.log("LAST name IS VALID");
-        lNameErr = false;
-    }
-
-    if (phone == "") {
-        console.log("PHONE IS BLANK");
-    }
-    else {
-        var regex = /^[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
-
-        if (regex.test(phone) == false) {
-            console.log("PHONE IS NOT VALID");
-        }
-
-        else {
-
-            console.log("PHONE IS VALID");
-            phoneErr = false;
-        }
+    
+    var regex = /(?=.*[a-zA-Z])([a-zA-Z0-9]).{6,20}$/;
+    if (regex.test(userName) == false) {
+        document.getElementById("registerResult").innerHTML = "Invalid User Name";
+        validity = false;
     }
 
-    if (email == "") {
-        console.log("EMAIL IS BLANK");
-    }
-    else {
-        var regex = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
-
-        if (regex.test(email) == false) {
-            console.log("EMAIL IS NOT VALID");
-        }
-
-        else {
-
-            console.log("EMAIL IS VALID");
-            emailErr = false;
-        }
+    var regex = /(?=.*\d)(?=.*[A-Za-z])(?=.*[!@#$%^&*]).{6,22}/;
+    if (regex.test(password) == false) {
+        document.getElementById("registerResult").innerHTML = "Invalid Password";
+        validity = false;
     }
 
-    if ((phoneErr || emailErr || fNameErr || lNameErr) == true) {
-        return false;
+    return validity;
+}
 
+function contactIsValid(firstName, lastName, phoneNumber, emailAddress) {
+
+    var validity = true;
+
+    if (firstName == "") {
+        document.getElementById("contactResult").innerHTML = "Invalid First Name";
+        validity = false;
     }
 
-    return true;
+    if (lastName == "") {
+        document.getElementById("contactResult").innerHTML = "Invalid Last Name";
+        validity = false;
+    }
 
+    var regex = /^[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4}$/;
+    if (regex.test(phoneNumber) == false) {
+        document.getElementById("contactResult").innerHTML = "Invalid Phone Number";
+        validity = false;
+    }
+
+    var regex = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+    if (regex.test(emailAddress) == false) {
+        document.getElementById("contactResult").innerHTML = "Invalid Email Address";
+        validity = false;
+    }
+
+    return validity;
 }
