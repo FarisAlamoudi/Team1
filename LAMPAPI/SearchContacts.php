@@ -8,11 +8,11 @@
 	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($conn->connect_error) 
 	{
-		returnWithError( $conn->connect_error );
+		returnWithError($conn->connect_error);
 	} 
 	else
 	{
-		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (FirstName LIKE ? OR LastName LIKE ? OR PhoneNumber LIKE ? OR EmailAddress LIKE ?) AND UserID=?");
+		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (firstName LIKE ? OR lastName LIKE ? OR phoneNumber LIKE ? OR emailAddress LIKE ?) AND userId=?");
 		$search = "%" . $inData["search"] . "%";
 		$stmt->bind_param("ssssi", $search, $search, $search, $search, $inData["userId"]);
 		$stmt->execute();
@@ -26,16 +26,16 @@
 				$searchResults .= ",";
 			}
 			$searchCount++;
-			$searchResults .= '{"FirstName" : "' . $row["FirstName"]. '", "LastName" : "' . $row["LastName"]. '", "PhoneNumber" : "' . $row["PhoneNumber"]. '", "EmailAddress" : "' . $row["EmailAddress"]. '"}';
+			$searchResults .= '{"firstName" : "' . $row["firstName"]. '", "lastName" : "' . $row["lastName"]. '", "phoneNumber" : "' . $row["phoneNumber"]. '", "emailAddress" : "' . $row["emailAddress"]. '"}';
 		}
 		
-		if( $searchCount == 0 )
+		if($searchCount == 0)
 		{
-			returnWithError( "No Records Found" );
+			returnWithError("No Records Found");
 		}
 		else
 		{
-			returnWithInfo( $searchResults );
+			returnWithInfo($searchResults);
 		}
 		
 		$stmt->close();
@@ -47,22 +47,22 @@
 		return json_decode(file_get_contents('php://input'), true);
 	}
 
-	function sendResultInfoAsJson( $obj )
+	function sendResultInfoAsJson($obj)
 	{
 		header('Content-type: application/json');
 		echo $obj;
 	}
 	
-	function returnWithError( $err )
+	function returnWithError($err)
 	{
 		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
-		sendResultInfoAsJson( $retValue );
+		sendResultInfoAsJson($retValue);
 	}
 	
-	function returnWithInfo( $searchResults )
+	function returnWithInfo($searchResults)
 	{
 		$retValue = '{"results":[' . $searchResults . '],"error":""}';
-		sendResultInfoAsJson( $retValue );
+		sendResultInfoAsJson($retValue);
 	}
 	
 ?>
