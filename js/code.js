@@ -1,4 +1,4 @@
-const urlBase = 'http://www.cosmiccontacts.net/LAMPAPI';
+const urlBase = 'http://cosmiccontacts.net/LAMPAPI';
 const extension = 'php';
 
 // WORKS but no md5 password hashing (also maybe add field validation????)
@@ -26,11 +26,6 @@ function login()
                 let response = JSON.parse(xhr.responseText);
                 if (response.id > 0)
                 {
-                    userId = response.id;
-                    firstName = response.firstName;
-                    lastName = response.lastName;
-    
-                    saveCookie();
                     window.location.href = "contacts.html";
                 }
                 else
@@ -86,55 +81,6 @@ function register()
     xhr.send(jsonPayload);
 }
 
-// why do we need cookies??
-function saveCookie()
-{
-    let minutes = 20;
-    let date = new Date();
-    date.setTime(date.getTime() + (minutes * 60 * 1000));
-
-    document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userId=" + userId + ";expires=" + date.toGMTString();
-}
-
-// why do we need cookies??
-function readCookie()
-{
-    userId = -1;
-    let data = document.cookie;
-    let splits = data.split(",");
-
-    for (var i = 0; i < splits.length; i++)
-    {
-
-        let thisOne = splits[i].trim();
-        let tokens = thisOne.split("=");
-
-        if (tokens[0] == "firstName")
-        {
-            firstName = tokens[1];
-        }
-
-        else if (tokens[0] == "lastName")
-        {
-            lastName = tokens[1];
-        }
-
-        else if (tokens[0] == "userId")
-        {
-            userId = parseInt(tokens[1].trim());
-        }
-    }
-
-    if (userId < 0)
-    {
-        window.location.href = "index.html";
-    }
-
-    else
-    {
-        document.getElementById("userName").innerHTML = "Welcome, " + firstName + " " + lastName + "!";
-    }
-}
 
 // top left button on contacts page returns to login screen
 function logout()
@@ -147,7 +93,7 @@ function logout()
     window.location.href = "index.html";
 }
 
-
+// ???
 function showTable()
 {
     var x = document.getElementById("addMe");
@@ -187,48 +133,39 @@ function addContact()
 //
 function loadContacts()
 {
-    let tmp = {
-        search: "",
-        userId: userId
-    };
-
-    let jsonPayload = JSON.stringify(tmp);
-
+    let jsonPayload = JSON.stringify({search:"",userId:userId});
     let url = urlBase + '/SearchContacts.' + extension;
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
-    try {
-        xhr.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                let jsonObject = JSON.parse(xhr.responseText);
-                if (jsonObject.error) {
-                    console.log(jsonObject.error);
-                    return;
-                }
-                let text = "<table border='1'>"
-                for (let i = 0; i < jsonObject.results.length; i++) {
-                    ids[i] = jsonObject.results[i].ID
-                    text += "<tr id='row" + i + "'>"
-                    text += "<td id='first_Name" + i + "'><span>" + jsonObject.results[i].FirstName + "</span></td>";
-                    text += "<td id='last_Name" + i + "'><span>" + jsonObject.results[i].LastName + "</span></td>";
-                    text += "<td id='email" + i + "'><span>" + jsonObject.results[i].EmailAddress + "</span></td>";
-                    text += "<td id='phone" + i + "'><span>" + jsonObject.results[i].PhoneNumber + "</span></td>";
-                    text += "<td>" +
-                        "<button type='button' id='edit_button" + i + "' class='w3-button w3-circle w3-lime' onclick='edit_row(" + i + ")'>" + "<span class='glyphicon glyphicon-edit'></span>" + "</button>" +
-                        "<button type='button' id='save_button" + i + "' value='Save' class='w3-button w3-circle w3-lime' onclick='save_row(" + i + ")' style='display: none'>" + "<span class='glyphicon glyphicon-saved'></span>" + "</button>" +
-                        "<button type='button' onclick='delete_row(" + i + ")' class='w3-button w3-circle w3-amber'>" + "<span class='glyphicon glyphicon-trash'></span> " + "</button>" + "</td>";
-                    text += "<tr/>"
-                }
-                text += "</table>"
-                document.getElementById("tbody").innerHTML = text;
+    xhr.onreadystatechange = function ()
+    {
+        if (this.readyState == 4)
+        {
+            if (this.status == 200)
+            {
+                
             }
-        };
-        xhr.send(jsonPayload);
-    } catch (err) {
-        console.log(err.message);
-    }
+            let respone = JSON.parse(xhr.responseText);
+            let text = "<table border='1'>"
+            for (let i = 0; i < response.results.length; i++) {
+                ids[i] = respone.results[i].ID
+                text += "<tr id='row" + i + "'>"
+                text += "<td id='first_Name" + i + "'><span>" + respone.results[i].FirstName + "</span></td>";
+                text += "<td id='last_Name" + i + "'><span>" + respone.results[i].LastName + "</span></td>";
+                text += "<td id='email" + i + "'><span>" + respone.results[i].EmailAddress + "</span></td>";
+                text += "<td id='phone" + i + "'><span>" + respone.results[i].PhoneNumber + "</span></td>";
+                text += "<td>" +
+                    "<button type='button' id='edit_button" + i + "' class='w3-button w3-circle w3-lime' onclick='edit_row(" + i + ")'>" + "<span class='glyphicon glyphicon-edit'></span>" + "</button>" +
+                    "<button type='button' id='save_button" + i + "' value='Save' class='w3-button w3-circle w3-lime' onclick='save_row(" + i + ")' style='display: none'>" + "<span class='glyphicon glyphicon-saved'></span>" + "</button>" +
+                    "<button type='button' onclick='delete_row(" + i + ")' class='w3-button w3-circle w3-amber'>" + "<span class='glyphicon glyphicon-trash'></span> " + "</button>" + "</td>";
+                text += "<tr/>"
+            }
+            text += "</table>"
+            document.getElementById("tbody").innerHTML = text;
+        }
+    };
+    xhr.send(jsonPayload);
 }
 
 function edit_row(id) {
@@ -294,42 +231,30 @@ function save_row(no) {
     }
 }
 
-function delete_row(no) {
+function deleteContact(no) 
+{
     var namef_val = document.getElementById("first_Name" + no).innerText;
     var namel_val = document.getElementById("last_Name" + no).innerText;
     nameOne = namef_val.substring(0, namef_val.length);
     nameTwo = namel_val.substring(0, namel_val.length);
     let check = confirm('Confirm deletion of contact: ' + nameOne + ' ' + nameTwo);
-    if (check === true) {
+    if (check === true)
+        {
         document.getElementById("row" + no + "").outerHTML = "";
-        let tmp = {
-            firstName: nameOne,
-            lastName: nameTwo,
-            userId: userId
-        };
 
-        let jsonPayload = JSON.stringify(tmp);
-
+        let jsonPayload = JSON.stringify({firstName:firstName,lastName:lastName,userId:userId});
         let url = urlBase + '/DeleteContact.' + extension;
-
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
         xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-        try {
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-
                     console.log("Contact has been deleted");
                     loadContacts();
                 }
             };
             xhr.send(jsonPayload);
-        } catch (err) {
-            console.log(err.message);
-        }
-
     };
-
 }
 
 function searchContacts() {
