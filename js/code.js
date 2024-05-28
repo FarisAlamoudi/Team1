@@ -1,5 +1,7 @@
 const urlBase = 'http://cosmiccontacts.net/LAMPAPI';
 const extension = 'php';
+var currentContactId; //Track Current UserID
+let userId = 0;
 
 // WORKS but no md5 password hashing
 function login()
@@ -20,6 +22,7 @@ function login()
         {
             if (this.status === 200)
             {
+                //userId = jsonObject.id;
                 let response = JSON.parse(xhr.responseText);
                 if (response.id > 0)
                 {
@@ -95,6 +98,7 @@ function register()
         {
             if (this.status === 200)
             {
+                //userId = jsonObject.id;
                 document.getElementById("registerResult").innerHTML = "User added";
                 window.location.href="index.html";
             }
@@ -122,19 +126,20 @@ function logout()
     window.location.href = "index.html";
 }
 
-// to show the table for the contacts 
-function showTable()
-{
-    var x = document.getElementById("addMe");
-    var contacts = document.getElementById("contactsTable")
-    if (x.style.display === "none") {
-        x.style.display = "block";
+// 
+function showTable() {
+    var addContactForm = document.getElementById("addContactForm");
+    var contacts = document.getElementById("contacts");
+
+    if (addContactForm.style.display === "none") {
+        addContactForm.style.display = "block";
         contacts.style.display = "none";
     } else {
-        x.style.display = "none";
+        addContactForm.style.display = "none";
         contacts.style.display = "block";
     }
 }
+
 
 // 
 function addContact()
@@ -151,9 +156,10 @@ function addContact()
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     xhr.onreadystatechange = function()
     {
-        if (this.readyState == 4)
+        if (this.readyState == 4 && this.status == 200)
         {
             document.getElementById("registerResult").innerHTML = "Contact added";
+            document.getElementById("addMe").reset();
             loadContacts();
             showTable();
         }
@@ -161,44 +167,110 @@ function addContact()
     xhr.send(jsonPayload);
 }
 
+function showAddForm() {
+    //Get the addContact Form
+    var form = document.getElementById("addContactForm");
+
+    //Set the display property to "block" to show the form
+    form.style.display = "block";
+}
+
+function cancelAdd() {
+    // Get the form element
+    var form = document.getElementById("addContactForm");
+
+    // Set the display property to "none" to hide the form
+    form.style.display = "none";
+
+    // Clear the input fields
+    document.getElementById("firstName").value = "";
+    document.getElementById("lastName").value = "";
+    document.getElementById("username").value = "";
+    document.getElementById("password").value = "";
+}
+
 //
-function loadContacts()
-{
-    let jsonPayload = JSON.stringify({search:"",userId:userId});
+function loadContacts() {
+    let jsonPayload = JSON.stringify({ search: "", userId: userId });
     let url = urlBase + '/SearchContacts.' + extension;
     let xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    xhr.onreadystatechange = function ()
-    {
-        if (this.readyState == 4)
-        {
-            if (this.status == 200)
-            {
-                
-            }
-            let respone = JSON.parse(xhr.responseText);
-            let text = "<table border='1'>"
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(xhr.responseText);
+            let text = "<table border='1'><thead><tr><th>First Name</th><th>Last Name</th><th>Email Address</th><th>Phone Number</th><th></th></tr></thead><tbody>";
             for (let i = 0; i < response.results.length; i++) {
-                ids[i] = respone.results[i].ID
-                text += "<tr id='row" + i + "'>"
-                text += "<td id='first_Name" + i + "'><span>" + respone.results[i].FirstName + "</span></td>";
-                text += "<td id='last_Name" + i + "'><span>" + respone.results[i].LastName + "</span></td>";
-                text += "<td id='email" + i + "'><span>" + respone.results[i].EmailAddress + "</span></td>";
-                text += "<td id='phone" + i + "'><span>" + respone.results[i].PhoneNumber + "</span></td>";
+                text += "<tr id='row" + i + "'>";
+                text += "<td id='first_Name" + i + "'>" + response.results[i].FirstName + "</td>";
+                text += "<td id='last_Name" + i + "'>" + response.results[i].LastName + "</td>";
+                text += "<td id='email" + i + "'>" + response.results[i].EmailAddress + "</td>";
+                text += "<td id='phone" + i + "'>" + response.results[i].PhoneNumber + "</td>";
                 text += "<td>" +
-                    "<button type='button' id='edit_button" + i + "' class='w3-button w3-circle w3-lime' onclick='edit_row(" + i + ")'>" + "<span class='glyphicon glyphicon-edit'></span>" + "</button>" +
-                    "<button type='button' id='save_button" + i + "' value='Save' class='w3-button w3-circle w3-lime' onclick='save_row(" + i + ")' style='display: none'>" + "<span class='glyphicon glyphicon-saved'></span>" + "</button>" +
-                    "<button type='button' onclick='delete_row(" + i + ")' class='w3-button w3-circle w3-amber'>" + "<span class='glyphicon glyphicon-trash'></span> " + "</button>" + "</td>";
-                text += "<tr/>"
+                    "<button type='button' id='edit_button" + i + "' class='w3-button w3-circle w3-lime' onclick='editContact(" + i + ")'>Edit</button>" +
+                    "<button type='button' id='save_button" + i + "' value='Save' class='w3-button w3-circle w3-lime' onclick='updateContact(" + i + ")' style='display: none'>Save</button>" +
+                    "<button type='button' onclick='deleteContact(" + i + ")' class='w3-button w3-circle w3-amber'>Delete</button></td>";
+                text += "</tr>";
             }
-            text += "</table>"
+            text += "</tbody></table>";
             document.getElementById("tbody").innerHTML = text;
         }
     };
     xhr.send(jsonPayload);
 }
 
+
+function editContact(contactId) {
+    // Store the id of the contact being edited
+    currentContactId = contactId;
+
+    // Get the current contact details
+    var firstName = document.getElementById("first_Name" + contactId).innerText;
+    var lastName = document.getElementById("last_Name" + contactId).innerText;
+    var phoneNumber = document.getElementById("phone" + contactId).innerText;
+    var emailAddress = document.getElementById("email" + contactId).innerText;
+
+    // Populate the edit form with the current contact details
+    document.getElementById("editFirstName").value = firstName;
+    document.getElementById("editLastName").value = lastName;
+    document.getElementById("editPhoneNumber").value = phoneNumber;
+    document.getElementById("editEmailAddress").value = emailAddress;
+
+    // Show the edit form
+    document.getElementById("editContactForm").style.display = "block";
+}
+
+function updateContact() {
+    // Get the new contact details from the form
+    var firstName = document.getElementById("editFirstName").value;
+    var lastName = document.getElementById("editLastName").value;
+    var phoneNumber = document.getElementById("editPhoneNumber").value;
+    var emailAddress = document.getElementById("editEmailAddress").value;
+
+    // Update the contact with the new details
+    // This would typically involve sending a request to the server
+    let url = urlBase + '/UpdateContact.' + extension;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    try {
+        xhr.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log("Contact has been updated");
+                loadContacts();
+            }
+        };
+        xhr.send(jsonPayload);
+    } catch (err) {
+        console.log(err.message);
+    }
+
+    // Hide the edit form
+    document.getElementById("editContactForm").style.display = "none";
+}
+
+/* Replaced by editContact
 function edit_row(id) {
     document.getElementById("edit_button" + id).style.display = "none";
     document.getElementById("save_button" + id).style.display = "inline-block";
@@ -217,8 +289,9 @@ function edit_row(id) {
     lastNameI.innerHTML = "<input type='text' id='namel_text" + id + "' value='" + namel_data + "'>";
     email.innerHTML = "<input type='text' id='email_text" + id + "' value='" + email_data + "'>";
     phone.innerHTML = "<input type='text' id='phone_text" + id + "' value='" + phone_data + "'>"
-}
+}*/
 
+/* Replaced by updateContact
 function save_row(no) {
     var namef_val = document.getElementById("namef_text" + no).value;
     var namel_val = document.getElementById("namel_text" + no).value;
@@ -260,7 +333,7 @@ function save_row(no) {
     } catch (err) {
         console.log(err.message);
     }
-}
+}*/
 
 function deleteContact(no) 
 {
@@ -313,6 +386,8 @@ function searchContacts() {
             }
         }
     }
+    // Show the table after search
+    $('.tables').show();
 }
 
 
