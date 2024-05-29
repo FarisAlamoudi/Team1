@@ -1,7 +1,16 @@
 <?php
-
-	$inData = getRequestInfo();
+	header("Access-Control-Allow-Origin: http://www.cosmiccontacts.net");
+	header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+	header("Access-Control-Allow-Headers: Content-Type, Authorization");
 	
+	// Handle preflight requests
+	if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+		http_response_code(200);
+		exit();
+	}
+	
+	$inData = getRequestInfo();
+
 	$firstName = $inData["firstName"];
 	$lastName = $inData["lastName"];
 	$userName = $inData["userName"];
@@ -18,7 +27,7 @@
 		$stmt->bind_param("s", $userName);
 		$stmt->execute();
 		$result = $stmt->get_result();
-		
+
 		if ($result->num_rows > 0)
 		{
 			http_response_code(409);
@@ -35,18 +44,18 @@
 			returnWithError("");
 		}
 	}
-	
+
 	function getRequestInfo()
 	{
 		return json_decode(file_get_contents('php://input'), true);
 	}
-	
+
 	function sendResultInfoAsJson($obj)
 	{
 		header('Content-type: application/json');
 		echo $obj;
 	}
-	
+
 	function returnWithError($err)
 	{
 		$retValue = '{"error":"' . $err . '"}';
