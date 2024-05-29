@@ -123,7 +123,7 @@ function register()
     var regex = /^(?=.*\d)(?=.*[a-zA-Z]).{4,16}$/;
     if (regex.test(userName) == false)
     {
-        document.getElementById("userNameError").innerHTML = "Invalid User Name";
+        document.getElementById("userNameError").innerHTML = "Invalid - Must be between 4-16 Characters";
         validity = false;
     }
 
@@ -197,10 +197,10 @@ function showTable()
 function addContact()
 {
     document.getElementById('addResult').innerHTML = "";
-    document.getElementById("firstNameError").innerHTML = "";
-    document.getElementById("lastNameError").innerHTML = "";
-    document.getElementById("phoneNumberError").innerHTML = "";
-    document.getElementById("emailAddressError").innerHTML = "";
+    document.getElementById("firstName").innerHTML = "";
+    document.getElementById("lastName").innerHTML = "";
+    document.getElementById("phoneNumber").innerHTML = "";
+    document.getElementById("emailAddress").innerHTML = "";
 
     let firstName = document.getElementById("firstName").value.trim();
     let lastName = document.getElementById("lastName").value.trim();
@@ -253,6 +253,14 @@ function addContact()
         {
             document.getElementById("addResult").innerHTML = "Contact added";
             showTable();
+            
+            //Get the searchForm
+            var searchForm = document.getElementById("searchForm");
+
+            //Set the display property to "block" to show the search bar
+            searchForm.style.display = "block";
+            
+            document.getElementById('addButtonContainer').style.display = 'block';
         }
     };
     xhr.send(jsonPayload);
@@ -261,26 +269,63 @@ function addContact()
 // ???
 function showAddForm()
 {
+    //Clear Input fields
+    document.getElementById("firstName").value = "";
+    document.getElementById("lastName").value = "";
+    document.getElementById("phoneNumber").value = "";
+    document.getElementById("emailAddress").value = "";
+    document.getElementById("addResult").innerHTML = ""; //So it doesn't continue to say Contact Added
+    
     //Get the addContact Form
     var form = document.getElementById("addContactForm");
 
     //Set the display property to "block" to show the form
     form.style.display = "block";
+    
+    //Get the searchForm
+    var searchForm = document.getElementById("searchForm");
+
+    //Set the display property to "none" to hide the search bar
+    searchForm.style.display = "none";
+    
+    //Get the contacts Table
+    var searchForm = document.getElementById("contacts");
+
+    //Set the display property to "none" to hide the Table
+    contacts.style.display = "none";
+    
+    document.getElementById('addButtonContainer').style.display = 'none';
 }
 
 // ???
 function cancelAdd()
 {
-    // Get the form element
+    //Get the form element
     var form = document.getElementById("addContactForm");
 
-    // Set the display property to "none" to hide the form
+    //Set the display property to "none" to hide the form
     form.style.display = "none";
+    
+    //Clear the error messages when user Cancels
+    document.getElementById('addResult').innerHTML = "";
+    document.getElementById("firstNameError").innerHTML = "";
+    document.getElementById("lastNameError").innerHTML = "";
+    document.getElementById("phoneNumberError").innerHTML = "";
+    document.getElementById("emailAddressError").innerHTML = "";
+    document.getElementById("addResult").innerHTML = ""; //So it doesn't continue to say Invalid after leaving Form
+    document.getElementById('addButtonContainer').style.display = 'block';
+    
+    //Get the searchForm
+    var searchForm = document.getElementById("searchForm");
+
+    //Set the display property to "block" to show the search bar
+    searchForm.style.display = "block";
 }
 
 // ???
 function searchContacts()
 {
+    //document.getElementById("addResult").innerHTML = ""; //So doesn't continue to say Contact Added after Successful update
     let jsonPayload = JSON.stringify({search:"",userId:getStoredID()});
     let url = urlBase + '/SearchContacts.' + extension;
     let xhr = new XMLHttpRequest();
@@ -295,10 +340,10 @@ function searchContacts()
             for (let i = 0; i < response.results.length; i++)
             {
                 text += "<tr id='row" + i + "'>";
-                text += "<td id='first_Name" + i + "'>" + response.results[i].firstName + "</td>";
-                text += "<td id='last_Name" + i + "'>" + response.results[i].lastName + "</td>";
-                text += "<td id='email" + i + "'>" + response.results[i].emailAddress + "</td>";
-                text += "<td id='phone" + i + "'>" + response.results[i].phoneNumber + "</td>";
+                text += "<td id='firstName" + i + "'>" + response.results[i].firstName + "</td>";
+                text += "<td id='lastName" + i + "'>" + response.results[i].lastName + "</td>";
+                text += "<td id='phoneNumber" + i + "'>" + response.results[i].phoneNumber + "</td>";
+                text += "<td id='emailAddress" + i + "'>" + response.results[i].emailAddress + "</td>";
                 text += "<td>" +
                     "<button type='button' id='edit_button" + i + "' class='w3-button w3-circle w3-lime' onclick='editContact(" + i + ")'>Edit</button>" +
                     "<button type='button' id='save_button" + i + "' value='Save' class='w3-button w3-circle w3-lime' onclick='updateContact(" + i + ")' style='display: none'>Save</button>" +
@@ -319,10 +364,10 @@ function editContact(contactId)
     currentContactId = contactId;
 
     // Get the current contact details
-    var firstName = document.getElementById("first_Name" + contactId).innerText;
-    var lastName = document.getElementById("last_Name" + contactId).innerText;
-    var phoneNumber = document.getElementById("phone" + contactId).innerText;
-    var emailAddress = document.getElementById("email" + contactId).innerText;
+    var firstName = document.getElementById("firstName" + contactId).innerText;
+    var lastName = document.getElementById("lastName" + contactId).innerText;
+    var phoneNumber = document.getElementById("phoneNumber" + contactId).innerText;
+    var emailAddress = document.getElementById("emailAddress" + contactId).innerText;
 
     // Populate the edit form with the current contact details
     document.getElementById("editFirstName").value = firstName;
@@ -344,7 +389,7 @@ function updateContact()
     var emailAddress = document.getElementById("editEmailAddress").value;
 
     // Update the contact with the new details
-    // This would typically involve sending a request to the server
+    let jsonPayload = JSON.stringify({firstName:firstName,lastName:lastName,phoneNumber:phoneNumber,emailAddress:emailAddress,userId:getStoredID()});
     let url = urlBase + '/UpdateContact.' + extension;
 
     let xhr = new XMLHttpRequest();
@@ -366,11 +411,16 @@ function updateContact()
     document.getElementById("editContactForm").style.display = "none";
 }
 
+function cancelEdit()
+{
+  //ToDo
+}
+
 // ???
 function deleteContact(no) 
 {
-    var namef_val = document.getElementById("first_Name" + no).innerText;
-    var namel_val = document.getElementById("last_Name" + no).innerText;
+    var namef_val = document.getElementById("firstName" + no).innerText;
+    var namel_val = document.getElementById("lastName" + no).innerText;
     nameOne = namef_val.substring(0, namef_val.length);
     nameTwo = namel_val.substring(0, namel_val.length);
     let check = confirm('Confirm deletion of contact: ' + nameOne + ' ' + nameTwo);
@@ -378,7 +428,7 @@ function deleteContact(no)
         {
         document.getElementById("row" + no + "").outerHTML = "";
 
-        let jsonPayload = JSON.stringify({firstName:firstName,lastName:lastName,userId:getStoredID()});
+        let jsonPayload = JSON.stringify({firstName:nameOne,lastName:nameTwo,userId:getStoredID()});
         let url = urlBase + '/DeleteContact.' + extension;
         let xhr = new XMLHttpRequest();
         xhr.open("POST", url, true);
