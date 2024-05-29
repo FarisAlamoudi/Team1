@@ -1,4 +1,13 @@
 <?php
+	header("Access-Control-Allow-Origin: http://www.cosmiccontacts.net");
+	header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+	header("Access-Control-Allow-Headers: Content-Type, Authorization");
+	
+	// Handle preflight requests
+	if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+		http_response_code(200);
+		exit();
+	}
 
 	$inData = getRequestInfo();
 
@@ -20,7 +29,7 @@
 		if($row = $result->fetch_assoc())
 		{
 			http_response_code(200);
-			returnWithInfo( $row['ID'], $row['firstName'], $row['lastName']);
+			returnWithInfo($row['ID'], $row['userName']);
 		}
 		else
 		{
@@ -45,13 +54,13 @@
 
 	function returnWithError($err)
 	{
-		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+		$retValue = '{"userId":0,"userName":"","error":"' . $err . '"}';
 		sendResultInfoAsJson($retValue);
 	}
 
-	function returnWithInfo($id, $firstName, $lastName)
+	function returnWithInfo($userId, $userName)
 	{
-		$retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '"}';
+		$retValue = '{"userId":' . $userId . ',"userName":"' . $userName . '"}';
 		sendResultInfoAsJson($retValue);
 	}
 
