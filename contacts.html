@@ -2,40 +2,43 @@
 <html lang="en">
   <head>
     <title>Cosmic Contacts</title>
+    <script type="text/javascript" src="js/code.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function() 
+      {
+        readCookie();
+      }, false);
+	  </script>
   </head>
-  <body onload="loadContacts()">
+  <body>
     <header>
       <button class="button" onclick="logout();">X</button>
-      <div class="header-text">USER: ____</div>
+      <div id="userName" class="header-text"></div>
     </header>
     <main>
       <div class="table">
         <table id="contacts" cellpadding="0" cellspacing="0" border="0">
-          <thead>
-            <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email Address</th>
-              <th>Phone Number</th>
-              <th></th>
-            </tr>
-          </thead>
           <tbody id="tbody"></tbody>
         </table>
       </div>
       <div id="addContactForm" style="display: none;">
         <h2>Add Contact</h2>
         <input type="text" id="firstName" placeholder="First Name"><br>
+        <ul id="firstNameError" class="error-text"></ul>
         <input type="text" id="lastName" placeholder="Last Name"><br>
+        <ul id="lastNameError" class="error-text"></ul>
         <input type="phone" id="phoneNumber" placeholder="Phone Number"><br>
+        <ul id="phoneNumberError" class="error-text"></ul>
         <input type="email" id="emailAddress" placeholder="Email Address"><br>
+        <ul id="emailAddressError" class="error-text"></ul>
         <button onclick="addContact()">Add Contact</button>
         <button onclick="cancelAdd()">Cancel</button>
       </div>
+      <div class="error-text" id="addResult"></div>
       <div id="editContactForm" style="display: none;">
         <h2>Edit Contact</h2>
         <input type="text" id="editFirstName" placeholder="First Name"><br>
@@ -51,6 +54,5 @@
       </div>
       <button onclick="showAddForm()">Add Contact</button>
     </main>
-    <script type="text/javascript" src="js/code.js"></script>
   </body>
 </html>
