@@ -1,49 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-
-  <head>
-    <title>Cosmic Contacts - Register</title>
-    <script type="text/javascript" src="js/md5.js"></script>
-    <script type="text/javascript" src="js/code.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/styles.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
-  </head>
-
-  <body>
-    <header>
-      <button class="button" onclick="location.href='index.html';">BACK</button>
-      <div class="header-text">USER: ____</div>
-    </header>
-    <main>
-      <div class="login-form">
-        <div class="title">COSMIC CONTACTS</div>
-        <div class="form-group">
-          <input type="text" class="input" id="firstName" placeholder="FIRSTNAME" onfocus="showHint('firstNameHint')" oninput="checkFirstName()"></br>
-          <div id="firstNameHint" class="hint-text">MUST NOT BE EMPTY</div>
-          <input type="text" class="input" id="lastName" placeholder="LASTNAME" onfocus="showHint('lastNameHint')" oninput="checkLastName()"></br>
-          <div id="lastNameHint" class="hint-text">MUST NOT BE EMPTY</div>
-          <input type="text" class="input" id="userName" placeholder="USERNAME" onfocus="showHint('userNameHints')" oninput="checkUserName()"></br>
-          <div id="userNameHints" class="hint-text">
-            <div id="letterHint">ATLEAST ONE LETTER</div>
-            <div id="digitHint">ATLEAST ONE DIGIT</div>
-            <div id="lengthHint">4 TO 16 CHARACTERS</div>
-          </div>
-          <input type="password" class="input" id="password" placeholder="PASSWORD" onfocus="showHint('passwordHints')" oninput="checkPassword()">
-          <div id="passwordHints" class="hint-text">
-            <div id="passLetterHint">ATLEAST ONE LETTER</div>
-            <div id="passDigitHint">ATLEAST ONE DIGIT</div>
-            <div id="passSpecialHint">ATLEAST ONE SPECIAL CHARACTER</div>
-            <div id="passLengthHint">4 TO 16 CHARACTERS</div>
-          </div>
-        </div>
-        <button type="submit" class="button" onclick="register();">REGISTER</button>
-        <div class="error-text" id="registerResult"></div>
-      </div>
-    </main>
-  </body>
-
+	<head>
+		<title>Cosmic Contacts - Register</title>
+		<script type="text/javascript" src="js/md5.js"></script>
+		<script type="text/javascript" src="js/code.js"></script>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/styles.css" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+		<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="images/favicon.ico" type="image/x-icon">
+	</head>
+	<body>
+		<header>
+			<button class="button" onclick="location.href='index.html';">BACK</button>
+			<div class="header-text">USER: ____</div>
+		</header>
+		<main>
+			<div class="login-form">
+				<div class="title">COSMIC CONTACTS</div>
+				<div class="form-group">
+					<input type="text" class="input" id="firstName" placeholder="FIRSTNAME" onfocus="showHint('firstNameHint')" oninput="checkFirstName()"></br>
+					<div id="firstNameHint" class="hint-text">MUST NOT BE EMPTY</div>
+					<input type="text" class="input" id="lastName" placeholder="LASTNAME" onfocus="showHint('lastNameHint')" oninput="checkLastName()"></br>
+					<div id="lastNameHint" class="hint-text">MUST NOT BE EMPTY</div>
+					<input type="text" class="input" id="userName" placeholder="USERNAME" onfocus="showHint('userNameHints')" oninput="checkUserName()"></br>
+					<div id="userNameHints" class="hint-text">
+						<div id="letterHint">AT LEAST ONE LETTER</div>
+						<div id="digitHint">AT LEAST ONE DIGIT</div>
+						<div id="lengthHint">4 TO 16 CHARACTERS</div>
+					</div>
+					<input type="password" class="input" id="password" placeholder="PASSWORD" onfocus="showHint('passwordHints')" oninput="checkPassword()">
+					<div id="passwordHints" class="hint-text">
+						<div id="passLetterHint">AT LEAST ONE LETTER</div>
+						<div id="passDigitHint">AT LEAST ONE DIGIT</div>
+						<div id="passSpecialHint">AT LEAST ONE SPECIAL CHARACTER</div>
+						<div id="passLengthHint">4 TO 16 CHARACTERS</div>
+					</div>
+				</div>
+				<button type="submit" class="button" onclick="register();">REGISTER</button>
+				<div class="error-text" id="registerResult"></div>
+			</div>
+		</main>
+	</body>
 </html>
