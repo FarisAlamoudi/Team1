@@ -7,55 +7,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="css/styles.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <script type="text/javascript">
-      document.addEventListener('DOMContentLoaded', function() 
-      {
+      document.addEventListener('DOMContentLoaded', function() {
         readCookie();
       }, false);
-	  </script>
+    </script>
   </head>
   <body>
     <header>
-      <button class="button" onclick="logout();">X</button>
+      <button class="button" onclick="logout();">LOGOUT</button>
       <div id="userName" class="header-text"></div>
     </header>
     <main>
-      <div class="table">
-        <table id="contacts" cellpadding="0" cellspacing="0" border="0">
-          <thead>
-          <tbody id="tbody"></tbody>
-        </table>
+      <div class="searchForm" id="searchForm">
+        <input type="text" class="input" id="searchInput" placeholder="SEARCH...">
+        <button class="button" onclick="searchContacts()">SEARCH</button>
+        <button class="button" onclick="showAddForm()">ADD</button>
+        <button class="button" onclick="searchContacts()">REFRESH</button>
       </div>
-      <div id="addContactForm" style="display: none;">
-        <h2>Add Contact</h2>
-        <input type="text" id="firstName" placeholder="First Name"><br>
-        <ul id="firstNameError" class="error-text"></ul>
-        <input type="text" id="lastName" placeholder="Last Name"><br>
-        <ul id="lastNameError" class="error-text"></ul>
-        <input type="phone" id="phoneNumber" placeholder="Phone Number"><br>
-        <ul id="phoneNumberError" class="error-text"></ul>
-        <input type="email" id="emailAddress" placeholder="Email Address"><br>
-        <ul id="emailAddressError" class="error-text"></ul>
-        <button id="addFormButton" <button onclick="addContact()">Add Contact</button>
-        <button onclick="cancelAdd()">Cancel</button>
+      <table id="contacts">
+        <tbody id="tbody"></tbody>
+      </table>
+      <div class="login-form" id="addContactForm" style="display: none;">
+        <div class="title">ADD CONTACT</div>
+        <input type="text" class="input" id="firstName" placeholder="FIRSTNAME" onfocus="showHint('firstNameHint')" oninput="checkFirstName()"></br>
+        <div id="firstNameHint" class="hint-text">MUST NOT BE EMPTY</div>
+        <input type="text" class="input" id="lastName" placeholder="LASTNAME" onfocus="showHint('lastNameHint')" oninput="checkLastName()"></br>
+        <div id="lastNameHint" class="hint-text">MUST NOT BE EMPTY</div>
+        <input type="text" class="input" id="phoneNumber" placeholder="PHONENUMBER" onfocus="showHint('phoneNumberHint')" oninput="checkPhoneNumber()"></br>
+        <div id="phoneNumberHint" class="hint-text">FORMAT: XXX-XXX-XXXX</div>
+        <input type="text" class="input" id="emailAddress" placeholder="EMAILADDRESS" onfocus="showHint('emailAddressHint')" oninput="checkEmailAddress()">
+        <div id="emailAddressHint" class="hint-text">FORMAT: NAME@NAME.XYZ</div>
+        <button id="addFormButton" class="button" onclick="addContact()">ADD CONTACT</button>
+        <button class="button" onclick="cancelAdd()">CANCEL</button>
       </div>
       <div class="error-text" id="addResult"></div>
-      <div id="editContactForm" style="display: none;">
-        <h2>Edit Contact</h2>
-        <input type="text" id="editFirstName" placeholder="First Name"><br>
-        <input type="text" id="editLastName" placeholder="Last Name"><br>
-        <input type="phone" id="editPhoneNumber" placeholder="Phone Number"><br>
-        <input type="email" id="editEmailAddress" placeholder="Email Address"><br>
-        <button onclick="updateContact()">Save Changes</button>
-        <button onclick="cancelEdit()">Cancel</button>
-      </div>
-      <div id="searchForm">
-        <input type="text" id="searchInput" placeholder="Search...">
-        <button onclick="searchContacts()">Search</button>
-      </div>
-      <div id="addButtonContainer" style="text-align: center;">
-        <button id="addContact" <button onclick="showAddForm()">Add Contact</button>
-      </div>
     </main>
   </body>
+
 </html>
