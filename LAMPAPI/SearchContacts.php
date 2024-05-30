@@ -26,17 +26,10 @@
 				$searchResults .= ",";
 			}
 			$searchCount++;
-			$searchResults .= '{"contactId" : "' . $row["ID"]. '", firstName" : "' . $row["firstName"]. '", "lastName" : "' . $row["lastName"]. '", "phoneNumber" : "' . $row["phoneNumber"]. '", "emailAddress" : "' . $row["emailAddress"]. '"}';
+			$searchResults .= '{"firstName" : "' . $row["firstName"]. '", "lastName" : "' . $row["lastName"]. '", "phoneNumber" : "' . $row["phoneNumber"]. '", "emailAddress" : "' . $row["emailAddress"]. '", "userId" : "' . $row["userId"].'", "ID" : "' . $row["ID"]. '"}';
 		}
 		
-		if($searchCount == 0)
-		{
-			returnWithError("No Records Found");
-		}
-		else
-		{
-			returnWithInfo($searchResults);
-		}
+		returnWithInfo($searchResults);
 		
 		$stmt->close();
 		$conn->close();
@@ -61,7 +54,7 @@
 	
 	function returnWithInfo($searchResults)
 	{
-		$retValue = '{"results":[' . $searchResults . '],"error":""}';
+		$retValue = '{"searchResults":[' . $searchResults . '],"error":""}';
 		sendResultInfoAsJson($retValue);
 	}
 	
