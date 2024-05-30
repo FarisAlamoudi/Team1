@@ -3,9 +3,9 @@
 	$inData = getRequestInfo();
 
 	$firstName = $inData["firstName"];
-	$lastName = $inData["lastName"];
-	$userName = $inData["userName"];
-	$password = $inData["password"];
+    $lastName = $inData["lastName"];
+    $userName = $inData["userName"];
+    $password = $inData["password"];
 
 	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
 	if ($conn->connect_error)
